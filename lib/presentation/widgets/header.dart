@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../core/constants/theme_constants.dart';
+import '../../core/utils/responsive.dart';
 
 class Header extends ConsumerWidget {
   const Header({super.key});
@@ -12,6 +13,7 @@ class Header extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
     final colorScheme = Theme.of(context).colorScheme;
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       height: 64,
@@ -25,10 +27,19 @@ class Header extends ConsumerWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
+        padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // Menu button for mobile
+            if (isMobile)
+              IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              )
+            else
             // Live status indicator
             Row(
               children: [
@@ -63,44 +74,45 @@ class Header extends ConsumerWidget {
             // Right side controls
             Row(
               children: [
-                // Theme toggle
-                InkWell(
-                  onTap: () => ref.read(themeProvider.notifier).toggleTheme(),
-                  borderRadius: BorderRadius.circular(8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          ThemeConstants.getThemeName(themeMode),
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 2,
-                            color: colorScheme.onSurface.withOpacity(0.4),
+                if (!isMobile) ...[
+                  // Theme toggle
+                  InkWell(
+                    onTap: () => ref.read(themeProvider.notifier).toggleTheme(),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            ThemeConstants.getThemeName(themeMode),
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                              color: colorScheme.onSurface.withOpacity(0.4),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          width: 6,
-                          height: 6,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ThemeConstants.getThemeIndicatorColor(themeMode),
+                          const SizedBox(width: 8),
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ThemeConstants.getThemeIndicatorColor(themeMode),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-
-                const SizedBox(width: 16),
-                Container(
-                  width: 1,
-                  height: 16,
-                  color: colorScheme.onSurface.withOpacity(0.1),
-                ),
-                const SizedBox(width: 16),
+                  const SizedBox(width: 16),
+                  Container(
+                    width: 1,
+                    height: 16,
+                    color: colorScheme.onSurface.withOpacity(0.1),
+                  ),
+                  const SizedBox(width: 16),
+                ],
 
                 // Disconnect button
                 InkWell(
@@ -113,15 +125,21 @@ class Header extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'DISCONNECT',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
-                        color: colorScheme.onSurface.withOpacity(0.4),
-                      ),
-                    ),
+                    child: isMobile
+                        ? Icon(
+                            Icons.logout,
+                            size: 20,
+                            color: colorScheme.onSurface.withOpacity(0.4),
+                          )
+                        : Text(
+                            'DISCONNECT',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                              color: colorScheme.onSurface.withOpacity(0.4),
+                            ),
+                          ),
                   ),
                 ),
               ],

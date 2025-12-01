@@ -5,6 +5,7 @@ import '../../widgets/sidebar.dart';
 import '../../widgets/header.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../core/utils/responsive.dart';
 
 class CreateAdminPage extends ConsumerStatefulWidget {
   const CreateAdminPage({super.key});
@@ -78,18 +79,20 @@ class _CreateAdminPageState extends ConsumerState<CreateAdminPage> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final createAdminState = ref.watch(createAdminProvider);
+    final isMobile = Responsive.isMobile(context);
 
     return Scaffold(
+      drawer: isMobile ? const Drawer(child: Sidebar(activeItem: 'create-admin')) : null,
       body: Row(
         children: [
-          const Sidebar(activeItem: 'create-admin'),
+          if (!isMobile) const Sidebar(activeItem: 'create-admin'),
           Expanded(
             child: Column(
               children: [
                 const Header(),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(32),
+                    padding: Responsive.getResponsivePadding(context),
                     child: Center(
                       child: Container(
                         constraints: const BoxConstraints(maxWidth: 800),
@@ -102,7 +105,7 @@ class _CreateAdminPageState extends ConsumerState<CreateAdminPage> {
                               Text(
                                 'Create ',
                                 style: TextStyle(
-                                  fontSize: 36,
+                                  fontSize: Responsive.getResponsiveFontSize(context, 36),
                                   fontWeight: FontWeight.w300,
                                   letterSpacing: -1,
                                   color: colorScheme.onSurface,
@@ -111,14 +114,14 @@ class _CreateAdminPageState extends ConsumerState<CreateAdminPage> {
                               Text(
                                 'Admin',
                                 style: TextStyle(
-                                  fontSize: 36,
+                                  fontSize: Responsive.getResponsiveFontSize(context, 36),
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic,
                                   letterSpacing: -1,
                                   color: colorScheme.onSurface,
                                 ),
                               ),
-                              const SizedBox(height: 48),
+                              SizedBox(height: isMobile ? 32 : 48),
 
                               // Step indicator
                               Row(

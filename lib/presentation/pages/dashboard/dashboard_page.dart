@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/sidebar.dart';
 import '../../widgets/header.dart';
 import '../../../core/constants/api_constants.dart';
+import '../../../core/utils/responsive.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -11,18 +12,20 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isMobile = Responsive.isMobile(context);
 
     return Scaffold(
+      drawer: isMobile ? const Drawer(child: Sidebar(activeItem: 'dashboard')) : null,
       body: Row(
         children: [
-          const Sidebar(activeItem: 'dashboard'),
+          if (!isMobile) const Sidebar(activeItem: 'dashboard'),
           Expanded(
             child: Column(
               children: [
                 const Header(),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(32),
+                    padding: Responsive.getResponsivePadding(context),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -36,71 +39,134 @@ class DashboardPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'SERVER ADMINISTRATION',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 2,
-                                      color: colorScheme.onSurface.withOpacity(0.4),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Windeath44 ',
-                                        style: TextStyle(
-                                          fontSize: 48,
-                                          fontWeight: FontWeight.w300,
-                                          letterSpacing: -1,
-                                          color: colorScheme.onSurface,
-                                        ),
+                          child: isMobile
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'SERVER ADMINISTRATION',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 2,
+                                        color: colorScheme.onSurface.withOpacity(0.4),
                                       ),
-                                      Text(
-                                        'Overview',
-                                        style: TextStyle(
-                                          fontSize: 48,
-                                          fontWeight: FontWeight.w300,
-                                          fontStyle: FontStyle.italic,
-                                          letterSpacing: -1,
-                                          color: colorScheme.onSurface.withOpacity(0.3),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Windeath44 ',
+                                          style: TextStyle(
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.w300,
+                                            letterSpacing: -1,
+                                            color: colorScheme.onSurface,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    DateTime.now().toString().split(' ')[0].toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 2,
-                                      color: colorScheme.onSurface.withOpacity(0.3),
+                                        Text(
+                                          'Overview',
+                                          style: TextStyle(
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.w300,
+                                            fontStyle: FontStyle.italic,
+                                            letterSpacing: -1,
+                                            color: colorScheme.onSurface.withOpacity(0.3),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    'SYSTEM OPERATIONAL',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: colorScheme.onSurface.withOpacity(0.6),
+                                    const SizedBox(height: 16),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          DateTime.now().toString().split(' ')[0].toUpperCase(),
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 2,
+                                            color: colorScheme.onSurface.withOpacity(0.3),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'SYSTEM OPERATIONAL',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: colorScheme.onSurface.withOpacity(0.6),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                  ],
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'SERVER ADMINISTRATION',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 2,
+                                            color: colorScheme.onSurface.withOpacity(0.4),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Windeath44 ',
+                                              style: TextStyle(
+                                                fontSize: 48,
+                                                fontWeight: FontWeight.w300,
+                                                letterSpacing: -1,
+                                                color: colorScheme.onSurface,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Overview',
+                                              style: TextStyle(
+                                                fontSize: 48,
+                                                fontWeight: FontWeight.w300,
+                                                fontStyle: FontStyle.italic,
+                                                letterSpacing: -1,
+                                                color: colorScheme.onSurface.withOpacity(0.3),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          DateTime.now().toString().split(' ')[0].toUpperCase(),
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 2,
+                                            color: colorScheme.onSurface.withOpacity(0.3),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'SYSTEM OPERATIONAL',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: colorScheme.onSurface.withOpacity(0.6),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                         ),
                         const SizedBox(height: 48),
 
@@ -118,10 +184,10 @@ class DashboardPage extends StatelessWidget {
                         GridView.count(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
+                          crossAxisCount: isMobile ? 1 : 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
-                          childAspectRatio: 3,
+                          childAspectRatio: isMobile ? 2.5 : 3,
                           children: [
                             _QuickActionCard(
                               title: 'Manage Users',
@@ -169,7 +235,7 @@ class DashboardPage extends StatelessWidget {
                               GridView.count(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                crossAxisCount: 5,
+                                crossAxisCount: isMobile ? 2 : (Responsive.isTablet(context) ? 3 : 5),
                                 crossAxisSpacing: 1,
                                 mainAxisSpacing: 1,
                                 childAspectRatio: 1,

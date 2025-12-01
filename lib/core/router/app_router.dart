@@ -31,19 +31,35 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: '/login',
-        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const LoginPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+        ),
       ),
       GoRoute(
         path: '/',
-        builder: (context, state) => const DashboardPage(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const DashboardPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+        ),
       ),
       GoRoute(
         path: '/users',
-        builder: (context, state) => const UsersPage(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const UsersPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+        ),
       ),
       GoRoute(
         path: '/users/create',
-        builder: (context, state) => const CreateAdminPage(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const CreateAdminPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+        ),
       ),
     ],
   );

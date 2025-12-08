@@ -23,11 +23,11 @@ class ApiConstants {
   static const String health = '/health';
 
   // Observability URLs
-  static const String grafanaUrl = 'https://grafana.windeath44.wiki';
-  static const String argoCdUrl = 'https://argocd.windeath44.wiki';
-  static const String kialiUrl = 'https://kiali.windeath44.wiki';
-  static const String prometheusUrl = 'https://prometheus.windeath44.wiki';
-  static const String kafkaUiUrl = 'https://kafka-ui.windeath44.wiki';
+  static const String grafanaUrl = 'https://prod.windeath44.wiki/admin/grafana/login';
+  static const String argoCdUrl = 'https://prod.windeath44.wiki/admin/argocd/';
+  static const String kialiUrl = 'https://prod.windeath44.wiki/admin/kiali';
+  static const String prometheusUrl = 'https://prod.windeath44.wiki/admin/prometheus';
+  static const String kafkaUiUrl = 'https://prod.windeath44.wiki/admin/kafka-ui';
 
   // Storage keys
   static const String authTokenKey = 'auth_token';

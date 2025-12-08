@@ -881,7 +881,7 @@ class _UsersPageState extends ConsumerState<UsersPage> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: colorScheme.onSurface.withOpacity(0.1),
+                          color: _getRoleColor(user.role).withOpacity(0.3),
                           width: 2,
                         ),
                       ),
@@ -889,6 +889,21 @@ class _UsersPageState extends ConsumerState<UsersPage> {
                         child: Image.network(
                           user.profile,
                           fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Container(
+                              color: colorScheme.onSurface.withOpacity(0.1),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              ),
+                            );
+                          },
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               color: _getRoleColor(user.role).withOpacity(0.1),
@@ -1138,7 +1153,7 @@ class _UsersPageState extends ConsumerState<UsersPage> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: colorScheme.onSurface.withOpacity(0.1),
+                          color: _getRoleColor(user.role).withOpacity(0.3),
                           width: 2,
                         ),
                       ),

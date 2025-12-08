@@ -99,7 +99,7 @@ class AuthRepository {
   /// Validate email verification code
   Future<void> validateEmailCode(String email, String code) async {
     try {
-      await _dioClient.dio.post(
+      await _dioClient.dio.patch(
         ApiConstants.emailValid,
         data: {
           'email': email,
